@@ -1,0 +1,232 @@
+x= c(1,7,3,4)
+x
+y=c(100:1)
+y
+
+x[3]+y[4]
+cos(x[3])+sin(x[2])*exp(-y[2])
+
+x[3]=0
+y[2]=-1
+x[3]+y[4]
+cos(x[3])+sin(x[2])*exp(-y[2])
+
+z= y[x+1]
+z
+
+# A matrix is an array of vectors
+A <- matrix(1:4, nrow = 2, ncol = 2)
+A
+#ans>      [,1] [,2]
+#ans> [1,]    1    3
+#ans> [2,]    2    4
+
+# Another matrix
+B <- matrix(1:4, nrow = 2, ncol = 2, byrow = TRUE)
+B
+#ans>      [,1] [,2]
+#ans> [1,]    1    2
+#ans> [2,]    3    4
+
+# Binding by rows or columns
+rbind(1:3, 4:6)
+#ans>      [,1] [,2] [,3]
+#ans> [1,]    1    2    3
+#ans> [2,]    4    5    6
+cbind(1:3, 4:6)
+#ans>      [,1] [,2]
+#ans> [1,]    1    4
+#ans> [2,]    2    5
+#ans> [3,]    3    6
+
+# Entry-wise operations
+A + 1
+#ans>      [,1] [,2]
+#ans> [1,]    2    4
+#ans> [2,]    3    5
+A * B
+#ans>      [,1] [,2]
+#ans> [1,]    1    6
+#ans> [2,]    6   16
+
+# Accessing elements
+A[2, 1] # Element (2, 1)
+#ans> [1] 2
+A[1, ] # First row
+#ans> [1] 1 3
+A[, 2] # Second column
+#ans> [1] 3 4
+
+# A data frame is a matrix with column names
+# Useful when you have multiple variables
+myDf <- data.frame(var1 = 1:2, var2 = 3:4)
+myDf
+#ans>   var1 var2
+#ans> 1    1    3
+#ans> 2    2    4
+
+# You can change names
+names(myDf) <- c("newname1", "newname2")
+myDf
+#ans>   newname1 newname2
+#ans> 1        1        3
+#ans> 2        2        4
+
+# The nice thing is that you can access variables by its name with the $ operator
+myDf$newname1
+#ans> [1] 1 2
+
+# And create new variables also (it has to be of the same
+# length as the rest of variables)
+myDf$myNewVariable <- c(0, 1)
+myDf
+#ans>   newname1 newname2 myNewVariable
+#ans> 1        1        3             0
+#ans> 2        2        4             1
+
+# A list is a collection of arbitrary variables
+myList <- list(vec = vec, A = A, myDf = myDf)
+
+# Access elements by names
+myList$vec
+#ans> [1] -4.12 -1.00  1.10  1.00  3.00  4.00
+myList$A
+#ans>      [,1] [,2]
+#ans> [1,]    1    3
+#ans> [2,]    2    4
+myList$myDf
+#ans>   newname1 newname2 myNewVariable
+#ans> 1        1        3             0
+#ans> 2        2        4             1
+
+# Reveal the structure of an object
+str(myList)
+#ans> List of 3
+#ans>  $ vec : num [1:6] -4.12 -1 1.1 1 3 4
+#ans>  $ A   : int [1:2, 1:2] 1 2 3 4
+#ans>  $ myDf:'data.frame': 2 obs. of  3 variables:
+#ans>   ..$ newname1     : int [1:2] 1 2
+#ans>   ..$ newname2     : int [1:2] 3 4
+#ans>   ..$ myNewVariable: num [1:2] 0 1
+str(myDf)
+#ans> 'data.frame': 2 obs. of  3 variables:
+#ans>  $ newname1     : int  1 2
+#ans>  $ newname2     : int  3 4
+#ans>  $ myNewVariable: num  0 1
+
+# A less lengthy output
+names(myList)
+#ans> [1] "vec"  "A"    "myDf"
+
+
+x=rnorm(100)
+# The rnorm() function generates a vector of random normal variables,
+# rnorm() with first argument n the sample size. Each time we call this
+# function, we will get a different answer.
+y=rnorm(100)
+plot(x,y)
+plot(x,y,xlab="this is the x-axis",ylab="this is the y-axis",
+     main="Plot of X vs Y")
+
+# R allows to sample [r], compute density/probability mass [d],
+# compute distribution function [p] and compute quantiles [q] for several
+# continuous and discrete distributions. The format employed is [rdpq]name,
+# where name stands for:
+# - norm -> Normal
+# - unif -> Uniform
+# - exp -> Exponential
+# - t -> Student's t
+# - f -> Snedecor's F (Fisher)
+# - chisq -> Chi squared
+# - pois -> Poisson
+# - binom -> Binomial
+# More distributions: ?Distributions
+
+
+# Sampling from a Normal - 100 random points from a N(0, 1)
+rnorm(n = 10, mean = 0, sd = 1)
+#ans>  [1]  0.160  1.657 -0.571 -0.749  0.205  2.151  0.332 -1.502 -0.985
+#ans> [10]  1.428
+
+# If you want to have always the same result, set the seed of the random number
+# generator
+set.seed(45678)
+rnorm(n = 10, mean = 0, sd = 1)
+#ans>  [1]  1.440 -0.720  0.671 -0.422  0.378 -1.667 -0.508  0.443 -1.799
+#ans> [10] -0.618
+
+# Plotting the density of a N(0, 1) - the Gauss bell
+x <- seq(-4, 4, l = 100)
+y <- dnorm(x = x, mean = 0, sd = 1)
+plot(x, y, type = "l")
+# Plotting the distribution function of a N(0, 1)
+x <- seq(-4, 4, l = 100)
+y <- pnorm(q = x, mean = 0, sd = 1)
+plot(x, y, type = "l", lwd = 3, main="The distribution function of a N(0, 1)")
+
+# Computing the 95% quantile for a N(0, 1)
+qnorm(p = 0.95, mean = 0, sd = 1)
+#ans> [1] 1.64
+
+# All distributions have the same syntax: rname(n,...), dname(x,...), dname(p,...)  
+# and qname(p,...), but the parameters in ... change. Look them in ?Distributions
+# For example, here is que same for the uniform distribution
+
+# Sampling from a U(0, 1)
+set.seed(45678)
+runif(n = 10, min = 0, max = 1)
+#ans>  [1] 0.9251 0.3340 0.2359 0.3366 0.7489 0.9327 0.3365 0.2246 0.6474
+#ans> [10] 0.0808
+
+# Plotting the density of a U(0, 1)
+x <- seq(-2, 2, l = 100)
+y <- dunif(x = x, min = 0, max = 1)
+plot(x, y, type = "l")
+# Computing the 95% quantile for a U(0, 1)
+qunif(p = 0.95, min = 0, max = 1)
+#ans> [1] 0.95
+
+qf(p=0.9,1,5)
+qf(p=0.95,1,5)
+qf(p=0.99,1,5)
+rpois(n=100,lambda = 5)
+x=seq(-4, 4, l = 100)
+plot(x,dt(x,df = 1),col='red',ylim = c(0,0.4),type='l')
+lines(x,dt(x,df = 5),col='blue')
+lines(x,dt(x,df = 10),col='green')
+lines(x,dt(x,df = 50),col='brown')
+
+load("C:/Users/Freshmeat/Desktop/A4/Machine learning/EU.RData")
+EU
+MyModel <- lm(formula = CamCom2011  ~ Population2010, data = EU)
+MyModel$residuals
+MyModel$coefficients
+summary(MyModel)
+summary(MyModel)$sigma
+
+
+# First, install the MASS package using the command: install.packages("MASS")
+
+# load MASS package
+library(MASS)
+#ans> Warning: le package 'MASS' a été compilé avec la version R 3.6.3
+
+# Check the dimensions of the Boston dataset
+dim(Boston)
+#ans> [1] 506  14
+# Split the data by using the first 400 observations as the training
+# data and the remaining as the testing data
+train = 1:400
+test = -train
+
+# Speficy that we are going to use only two variables (lstat and medv)
+variables = which(names(Boston) ==c("lstat", "medv"))
+training_data = Boston[train, variables]
+testing_data = Boston[test, variables]
+
+# Check the dimensions of the new dataset
+dim(training_data)
+#ans> [1] 400   2
+# Scatterplot of lstat vs. medv
+plot(training_data$lstat, training_data$medv,main = "Plot of Lstat vs nedv",xlab = "lstat"
+     ,ylab="medv",col="red",lwd = 2,pch = 20)
